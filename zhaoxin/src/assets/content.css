@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-content {
+    justify-content: center;
+}
+
+.outside{
+    flex-wrap: wrap;
+}
+.top {
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 0;
+    border: 1px rgb(187, 187, 187) solid;
+}
+
+.nav {
+    border: 1px rgb(187, 187, 187) solid;
+}
