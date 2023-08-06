@@ -11,16 +11,19 @@ const tableData = ref([
     {
         id: '',
         name: 'Tom',
+        phone:'10011333',
         order: '1',
     },
     {
         id: '',
         name: 'Tom',
+        phone:'10011333',
         order: '1',
     },
     {
         id: '',
         name: 'Tom',
+        phone:'10011333',
         order: '1',
     },
 ])
