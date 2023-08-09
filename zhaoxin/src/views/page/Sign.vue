@@ -1,27 +1,30 @@
 <script setup lang="ts">
-import { ref } from "vue";
-const tableData = ref([
+import {axiosInstances} from "../../api/axiosConfi";
+import { ref,onMounted } from "vue";
+//import {get} from "../../api/admin/admin"
+const load =async () => {
+        try {
+            const res = await axiosInstances.get("/user/info/all", {
+                headers:{
+                 Authorization:"Bearer "+"eyJraWQiOiJlMTFhNGUyMy05YzlkLTQzMzQtOWRiMS0yNDQ2NDFiNjI0N2QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIyMDIxMTAwOTgxNzEiLCJhdWQiOiJtZXNzYWdpbmctY2xpZW50IiwibmJmIjoxNjkxNTg4MTkxLCJzY29wZSI6WyJtZXNzYWdlLnJlYWQiXSwiaXNzIjoiaHR0cDovLzQzLjEzOS4xMTcuMjE2Ojk4MjEiLCJleHAiOjE2OTE2MzEzOTEsImlhdCI6MTY5MTU4ODE5MX0.X7DcMIWJrb7-KL7OoCYrWGUWOeRO-OCi9XOyWIn6fsruPUdRF3PpbHLlG4Jy8Ph6Thdx5rqae-ji2InkuZbbLe6XTXUe0fH8vEy-Hx4Ksf7hT_jeYmW06cU5MTIn71qQrEteyVb6RHtaMtcdGGUf1C7SqwSN7Q8uSHWaK01gAqHi8tUbvaU5n-ihn3Mke2vXr4hTshLNkDOeRHoBwv4HAUkfmF_pbNCBzgmp9YI4V3JH9uVgnXlesDEwVvkjpjgj28f3CqTof_Zyiji0zsYzcfjWmG8BBCAoqqvysEq7lKpuOJBV0UYIZxkYkjyK6I-kW3xxkCXMtF-URoHsIpHIYw"
+                  },
+            params:{
+                organizationId:1
+            }
+            })
+            console.log(res.data.data)
+        } catch (error) {
+          console.log(error)
+        }
+    }
+    onMounted(async ()=>{await load()})
+    const tableData = ref([
   {
     id: "2023xxxxxxx",
     phone: "10011333",
     name: "Tom",
     order: "1",
-  },
-  {
-    id: "",
-    name: "Tom",
-    order: "1",
-  },
-  {
-    id: "",
-    name: "Tom",
-    order: "1",
-  },
-  {
-    id: "",
-    name: "Tom",
-    order: "1",
-  },
+  }
 ]);
 const total = ref(100);
 const currentChange = (value: number) => {
