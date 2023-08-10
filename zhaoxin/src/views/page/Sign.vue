@@ -1,24 +1,13 @@
 <script setup lang="ts">
-import {axiosInstances} from "../../api/axiosConfi";
 import { ref,onMounted } from "vue";
-//import {get} from "../../api/admin/admin"
-const load =async () => {
-        try {
-            const res = await axiosInstances.get("/user/info/all", {
-                headers:{
-                 Authorization:"Bearer "+"eyJraWQiOiJlMTFhNGUyMy05YzlkLTQzMzQtOWRiMS0yNDQ2NDFiNjI0N2QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIyMDIxMTAwOTgxNzEiLCJhdWQiOiJtZXNzYWdpbmctY2xpZW50IiwibmJmIjoxNjkxNTg4MTkxLCJzY29wZSI6WyJtZXNzYWdlLnJlYWQiXSwiaXNzIjoiaHR0cDovLzQzLjEzOS4xMTcuMjE2Ojk4MjEiLCJleHAiOjE2OTE2MzEzOTEsImlhdCI6MTY5MTU4ODE5MX0.X7DcMIWJrb7-KL7OoCYrWGUWOeRO-OCi9XOyWIn6fsruPUdRF3PpbHLlG4Jy8Ph6Thdx5rqae-ji2InkuZbbLe6XTXUe0fH8vEy-Hx4Ksf7hT_jeYmW06cU5MTIn71qQrEteyVb6RHtaMtcdGGUf1C7SqwSN7Q8uSHWaK01gAqHi8tUbvaU5n-ihn3Mke2vXr4hTshLNkDOeRHoBwv4HAUkfmF_pbNCBzgmp9YI4V3JH9uVgnXlesDEwVvkjpjgj28f3CqTof_Zyiji0zsYzcfjWmG8BBCAoqqvysEq7lKpuOJBV0UYIZxkYkjyK6I-kW3xxkCXMtF-URoHsIpHIYw"
-                  },
-            params:{
-                organizationId:1
-            }
-            })
-            console.log(res.data.data)
-        } catch (error) {
-          console.log(error)
-        }
-    }
-    onMounted(async ()=>{await load()})
-    const tableData = ref<any[]>([]);
+import {get} from "../../api/admin/admin"
+const load=async()=>{
+  let data=(await get()).data.data
+  tableData.value=data
+  total.value=data.length
+}
+onMounted(async ()=>{await load()})
+const tableData = ref<any[]>([]);
 const total = ref(100);
 const currentChange = (value: number) => {
   console.log(value);
@@ -34,11 +23,30 @@ const handleDel = (index: number, row: any) => {
   <div class="container">
     <div style="margin-top: 10px">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column fixed prop="order" label="Order" width="80" />
-        <el-table-column prop="id" label="Id" width="150" />
-        <el-table-column prop="phone" label="Phone" width="150" />
-        <el-table-column prop="name" label="Name" width="150" />
-        <el-table-column prop="email" label="email" />
+        <el-table-column prop="college" label="College" />
+        <el-table-column prop="volunteer" label="Volunteer" width="130"/>
+        <el-table-column prop="gender" label="Gender" width="80" />
+        <el-table-column prop="major" label="Major"/>
+        <el-table-column prop="id" label="Id" width="120" />
+        <el-table-column prop="introduction" label="Introduction">
+          <template #default="scope">
+        <el-tooltip
+            :content="scope.row.introduction"
+            raw-content
+            placement="top-start"
+            v-if="scope.row.introduction"
+        >
+          <span v-if="scope.row.introduction && scope.row.introduction.length <= 10">
+               {{scope.row.introduction}}
+          </span>
+          <span v-if="scope.row.introduction&& scope.row.introduction.length > 10">                
+               {{scope.row.introduction.substr(0, 10) + "..."}}
+          </span>
+        </el-tooltip>
+        <span v-else-if="scope.row.introduction== null"> NA </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="username" label="Name" width="80" />
         <el-table-column label="Operations">
           <template #default="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
@@ -81,5 +89,10 @@ const handleDel = (index: number, row: any) => {
   margin-top: 10px;
   justify-content: center;
   align-items: center;
+}
+:deep(table tr span.el-tooltip__trigger) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 }
 </style>

@@ -16,14 +16,5 @@ export default defineConfig({
   ],
   server:{
     open:true,//运行时自动打开浏览器
-    // proxy:{
-    //   '/api':{
-    //     target:"http://43.139.117.216:8100",
-    //     changeOrigin:true,
-    //     rewrite(path){
-    //       return path.replace(/^\/api/,'')
-    //     }
-    //   }
-    // }
   }
 })
